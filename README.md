@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAZPER - Ethical Hacking Learning Center</title>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #00f0ff;
+      --purple: #bd00ff;
+      --accent: #ff0055;
+      --success: #00ff88;
+      --dark: #0a0a0f;
+      --darker: #050508;
+      --light: #e0e0e0;
+      --warning: #ffaa00;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--darker);
+      color: var(--light);
+      line-height: 1.6;
+    }
+
+    section { padding: 80px 5%; max-width: 1100px; margin: auto; }
+
+    nav {
+      position: fixed; top: 0; width: 100%;
+      background: rgba(0,0,0,0.95); padding: 15px 5%; z-index: 999;
+      border-bottom: 1px solid rgba(0,240,255,0.2);
+    }
+
+    .nav-wrap { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      max-width: 1100px; 
+      margin: auto; 
+    }
+
+    .logo { 
+      color: var(--primary); 
+      font-size: 28px; 
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo::before {
+      content: "CZ";
+      background: linear-gradient(135deg, var(--primary), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      border: 2px solid var(--primary);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 20px;
+    }
+
+    .nav-links a { 
+      color: var(--light); 
+      margin-left: 25px; 
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 1px;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a:hover { color: var(--primary); }
+
+    .hero { 
+      height: 90vh; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center; 
+      text-align: center;
+      margin-top: 60px;
+      background: radial-gradient(circle at center, rgba(0,240,255,0.1) 0%, transparent 70%);
+    }
+
+    .hero h1 {
+      font-size: 64px;
+      background: linear-gradient(45deg, var(--primary), var(--purple), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      margin-bottom: 20px;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 20px rgba(0,240,255,0.3)); }
+      to { filter: drop-shadow(0 0 30px rgba(0,240,255,0.6)); }
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      color: rgba(224,224,224,0.8);
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      margin-top: 20px; 
+      padding: 15px 40px; 
+      border: none;
+      background: linear-gradient(45deg, var(--primary), var(--purple));
+      color: black; 
+      font-weight: bold; 
+      cursor: pointer; 
+      border-radius: 30px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      font-size: 16px;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0,240,255,0.4);
+    }
+
+    .grid { display: grid; gap: 25px; }
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); }
+
+    .card { 
+      background: rgba(255,255,255,0.05); 
+      padding: 30px; 
+      border-radius: 15px; 
+      border: 1px solid rgba(0,240,255,0.2);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 40px rgba(0,240,255,0.2);
+      border-color: var(--primary);
+    }
+
+    .card h3 {
+      color: var(--primary);
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+    }
+
+    .card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      text-align: center;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+
+    input, textarea {
+      width: 100%; 
+      padding: 12px; 
+      margin-top: 15px;
+      background: rgba(255,255,255,0.1); 
+      color: white; 
+      border: 1px solid rgba(0,240,255,0.3); 
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 10px rgba(0,240,255,0.3);
+    }
+
+    .auth-box { max-width: 450px; margin: 40px auto; }
+
+    .security-notice {
+      background: rgba(255,170,0,0.1);
+      border: 1px solid var(--warning);
+      color: var(--warning);
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .error-msg {
+      color: var(--accent);
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .success-msg {
+      color: var(--success);
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .password-strength {
+      height: 5px;
+      background: #333;
+      border-radius: 3px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+
+    .strength-bar {
+      height: 100%;
+      width: 0;
+      transition: all 0.3s;
+    }
+
+    footer { 
+      text-align: center; 
+      padding: 50px 20px; 
+      background: black; 
+      margin-top: 60px;
+      border-top: 1px solid rgba(0,240,255,0.2);
+    }
+
+    .disclaimer {
+      background: rgba(255,0,85,0.1);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 800px;
+      margin: 0 auto 30px;
+      font-size: 14px;
+    }
+
+    /* Tools Section */
+    .tool-output {
+      background: rgba(0,0,0,0.5);
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      font-family: monospace;
+      border: 1px solid rgba(0,240,255,0.3);
+      word-break: break-all;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 40px; }
+      .nav-links { display: none; }
+    }
+  </style>
+<base target="_blank">
+</head>
+
+<body>
+
+<nav>
+  <div class="nav-wrap">
+    <div class="logo">CAZPER</div>
+    <div class="nav-links">
+      <a href="#lessons">Lessons</a>
+      <a href="#tools">Tools</a>
+      <a href="#blog">Blog</a>
+      <a href="#contact">Contact</a>
+      <a href="#signin">Sign In</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1>CAZPER</h1>
+  <p>Learn cybersecurity the safe and legal way. Build skills for a real ethical hacking career. 
+  <br><em>Education only - No illegal activities</em></p>
+  <a href="#lessons"><button class="btn">Start Learning</button></a>
+</section>
+
+<section id="lessons">
+  <h2>📚 Beginner Lessons</h2>
+  <div class="grid grid-3">
+    <div class="card">
+      <div class="card-icon">🔐</div>
+      <h3>Password Security</h3>
+      <p>Create strong passwords, use managers, and enable 2FA protection. Learn why "123456" is never enough.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎣</div>
+      <h3>Phishing Awareness</h3>
+      <p>Identify fake emails, spoofed websites, and social engineering scams before they trick you.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌐</div>
+      <h3>Networking Basics</h3>
+      <p>Understand IP addresses, ports, protocols, and how firewalls protect networks.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🐧</div>
+      <h3>Linux Fundamentals</h3>
+      <p>Master command line basics, file permissions, and essential security tools.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛡️</div>
+      <h3>Malware Defense</h3>
+      <p>Recognize viruses, trojans, ransomware, and build defense strategies.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚖️</div>
+      <h3>Legal & Ethics</h3>
+      <p>White hat vs black hat, responsible disclosure, and staying on the right side of the law.</p>
+    </div>
+  </div>
+</section>
+
+<section id="tools">
+  <h2>🛠️ Security Tools</h2>
+  <div class="grid grid-3">
+    <div class="card">
+      <h3>Password Generator</h3>
+      <div class="tool-output" id="genOutput">Click generate to create secure password</div>
+      <button class="btn" onclick="generateSecurePassword()">Generate</button>
+      <button class="btn" onclick="copyToClipboard()" style="margin-left: 10px; background: transparent; border: 2px solid var(--primary); color: var(--primary);">Copy</button>
+    </div>
+    
+    <div class="card">
+      <h3>Password Strength Checker</h3>
+      <input type="password" id="checkPass" placeholder="Enter password to test..." onkeyup="checkPasswordStrength()">
+      <div class="password-strength">
+        <div class="strength-bar" id="strengthBar"></div>
+      </div>
+      <p id="strengthText" style="margin-top: 10px; font-size: 14px;"></p>
+    </div>
+
+    <div class="card">
+      <h3>Security Tips</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="padding: 8px 0;">✅ Use unique passwords per site</li>
+        <li style="padding: 8px 0;">✅ Enable 2FA everywhere</li>
+        <li style="padding: 8px 0;">✅ Keep software updated</li>
+        <li style="padding: 8px 0;">✅ Backup important data</li>
+        <li style="padding: 8px 0;">✅ Verify email senders</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="blog">
+  <h2>📰 Security Blog</h2>
+  <div class="grid grid-3">
+    <div class="card">
+      <h3>Protect Your Facebook Account</h3>
+      <p style="color: rgba(224,224,224,0.7); margin: 10px 0;">Jan 15, 2026</p>
+      <p>Essential security settings to prevent unauthorized access and identity theft.</p>
+    </div>
+    <div class="card">
+      <h3>Email Phishing Guide 2026</h3>
+      <p style="color: rgba(224,224,224,0.7); margin: 10px 0;">Jan 10, 2026</p>
+      <p>New tactics scammers use and how to spot red flags in your inbox.</p>
+    </div>
+    <div class="card">
+      <h3>Best Free Antivirus Tools</h3>
+      <p style="color: rgba(224,224,224,0.7); margin: 10px 0;">Jan 5, 2026</p>
+      <p>Comparison of Windows Defender, Avast, Bitdefender, and Malwarebytes.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <h2>📧 Contact Us</h2>
+  <div class="card">
+    <div class="security-notice">
+      ⚠️ <strong>Security Notice:</strong> This is a demo form. In production, always use HTTPS and server-side validation to prevent XSS attacks.
+    </div>
+    <form onsubmit="handleContact(event)">
+      <input type="text" id="contactName" placeholder="Your Name" required maxlength="50" />
+      <input type="email" id="contactEmail" placeholder="Email Address" required />
+      <textarea rows="5" id="contactMsg" placeholder="Your Message" required maxlength="500"></textarea>
+      <button class="btn" type="submit">Send Message</button>
+      <p id="contactStatus"></p>
+    </form>
+  </div>
+</section>
+
+<!-- SECURE AUTH SECTION -->
+<section id="signin" class="auth-box">
+  <h2>🔐 Secure Demo Login</h2>
+  
+  <div class="security-notice">
+    🔒 <strong>Educational Only:</strong> This demo shows client-side simulation only. 
+    Real apps require server-side hashing (bcrypt/Argon2), HTTPS, and database storage.
+    Never store passwords in localStorage or plain text!
+  </div>
+
+  <div class="card">
+    <h3 style="color: var(--primary); margin-bottom: 20px;">Sign Up</h3>
+    <form onsubmit="secureRegister(event)">
+      <input type="text" id="regName" placeholder="Full Name" required maxlength="50" />
+      <input type="email" id="regEmail" placeholder="Email" required />
+      <input type="password" id="regPass" placeholder="Password (min 8 chars)" required minlength="8" onkeyup="checkRegStrength()" />
+      <div class="password-strength"><div class="strength-bar" id="regStrengthBar"></div></div>
+      <p id="regStrengthText" style="font-size: 13px; margin-top: 5px;"></p>
+      <button class="btn" type="submit">Create Account</button>
+      <p id="regStatus"></p>
+    </form>
+  </div>
+
+  <div class="card" style="margin-top: 30px;">
+    <h3 style="color: var(--primary); margin-bottom: 20px;">Sign In</h3>
+    <form onsubmit="secureLogin(event)">
+      <input type="email" id="loginEmail" placeholder="Email" required />
+      <input type="password" id="loginPass" placeholder="Password" required />
+      <button class="btn" type="submit">Sign In</button>
+      <p id="loginStatus"></p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="disclaimer">
+    <strong>⚠️ Legal Disclaimer:</strong> This website is strictly for educational purposes. 
+    All content teaches defensive cybersecurity. Unauthorized access to computer systems is illegal 
+    under the Computer Crime Act. Always practice ethical hacking with proper written authorization only.
+  </div>
+  <p style="color: rgba(224,224,224,0.6);">© 2026 CAZPER Academy | Learn Ethical Hacking Responsibly</p>
+</footer>
+
+<script>
+// ================= SECURITY UTILITIES =================
+
+// Sanitize input to prevent XSS
+function sanitizeInput(input) {
+  const div = document.createElement('div');
+  div.textContent = input;
+  return div.innerHTML;
+}
+
+// Simple hash function (demo only - use bcrypt/Argon2 in production)
+async function hashPassword(password) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// ================= PASSWORD TOOLS =================
+
+function generateSecurePassword() {
+  const length = 16;
+  const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?";
+  let password = "";
+  const array = new Uint32Array(length);
+  window.crypto.getRandomValues(array);
+  
+  for (let i = 0; i < length; i++) {
+    password += charset[array[i] % charset.length];
+  }
+  
+  document.getElementById('genOutput').textContent = password;
+  document.getElementById('genOutput').style.color = 'var(--success)';
+}
+
+function copyToClipboard() {
+  const text = document.getElementById('genOutput').textContent;
+  if (text && text !== 'Click generate to create secure password') {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Password copied securely!');
+    });
+  }
+}
+
+function checkPasswordStrength() {
+  const password = document.getElementById('checkPass').value;
+  const bar = document.getElementById('strengthBar');
+  const text = document.getElementById('strengthText');
+  
+  let strength = 0;
+  if (password.length > 6) strength++;
+  if (password.length > 10) strength++;
+  if (/[A-Z]/.test(password)) strength++;
+  if (/[0-9]/.test(password)) strength++;
+  if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+  bar.style.width = '0%';
+  bar.style.background = 'var(--accent)';
+  
+  if (password.length === 0) {
+    text.textContent = '';
+  } else if (strength < 3) {
+    bar.style.width = '33%';
+    text.textContent = 'Weak - Add uppercase, numbers, and symbols';
+    text.style.color = 'var(--accent)';
+  } else if (strength < 5) {
+    bar.style.width = '66%';
+    bar.style.background = '#ffaa00';
+    text.textContent = 'Medium - Good but could be stronger';
+    text.style.color = '#ffaa00';
+  } else {
+    bar.style.width = '100%';
+    bar.style.background = 'var(--success)';
+    text.textContent = 'Strong - Excellent password!';
+    text.style.color = 'var(--success)';
+  }
+}
+
+function checkRegStrength() {
+  const password = document.getElementById('regPass').value;
+  const bar = document.getElementById('regStrengthBar');
+  const text = document.getElementById('regStrengthText');
+  
+  let strength = 0;
+  if (password.length >= 8) strength++;
+  if (password.length >= 12) strength++;
+  if (/[A-Z]/.test(password)) strength++;
+  if (/[0-9]/.test(password)) strength++;
+  if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+  bar.style.width = (strength / 5 * 100) + '%';
+  
+  if (strength <= 2) {
+    bar.style.background = 'var(--accent)';
+    text.textContent = 'Weak password';
+    text.style.color = 'var(--accent)';
+  } else if (strength <= 4) {
+    bar.style.background = '#ffaa00';
+    text.textContent = 'Medium strength';
+    text.style.color = '#ffaa00';
+  } else {
+    bar.style.background = 'var(--success)';
+    text.textContent = 'Strong password';
+    text.style.color = 'var(--success)';
+  }
+}
+
+// ================= CONTACT FORM =================
+
+function handleContact(e) {
+  e.preventDefault();
+  
+  const name = sanitizeInput(document.getElementById('contactName').value);
+  const email = sanitizeInput(document.getElementById('contactEmail').value);
+  const msg = sanitizeInput(document.getElementById('contactMsg').value);
+  
+  // Demo only - in production, send to server via HTTPS
+  console.log('Contact form:', { name, email, msg });
+  document.getElementById('contactStatus').textContent = 'Message received (demo mode)';
+  document.getElementById('contactStatus').className = 'success-msg';
+  e.target.reset();
+}
+
+// ================= SECURE AUTH (DEMO) =================
+
+// WARNING: This is client-side demo only!
+// Real implementation requires:
+// 1. Server-side password hashing (bcrypt/Argon2)
+// 2. HTTPS/TLS encryption
+// 3. Database storage (not localStorage)
+// 4. Session management with httpOnly cookies
+// 5. Rate limiting and CSRF protection
+
+async function secureRegister(e) {
+  e.preventDefault();
+  
+  const name = sanitizeInput(document.getElementById('regName').value);
+  const email = sanitizeInput(document.getElementById('regEmail').value);
+  const password = document.getElementById('regPass').value;
+  
+  // Validation
+  if (password.length < 8) {
+    document.getElementById('regStatus').textContent = 'Password must be at least 8 characters';
+    document.getElementById('regStatus').className = 'error-msg';
+    return;
+  }
+  
+  // Hash password (demo only - real apps use server-side hashing)
+  const hashedPass = await hashPassword(password);
+  
+  // Store in localStorage (INSECURE - demo only)
+  // Real app: Send to server via HTTPS, store hashed password in database
+  const userData = {
+    name: name,
+    email: email,
+    passwordHash: hashedPass, // Still insecure in localStorage!
+    createdAt: new Date().toISOString()
+  };
+  
+  localStorage.setItem('cazper_user_' + email, JSON.stringify(userData));
+  
+  document.getElementById('regStatus').textContent = 'Demo account created! (Not secure - see warning above)';
+  document.getElementById('regStatus').className = 'success-msg';
+  e.target.reset();
+}
+
+async function secureLogin(e) {
+  e.preventDefault();
+  
+  const email = sanitizeInput(document.getElementById('loginEmail').value);
+  const password = document.getElementById('loginPass').value;
+  
+  const userData = localStorage.getItem('cazper_user_' + email);
+  
+  if (!userData) {
+    document.getElementById('loginStatus').textContent = 'User not found';
+    document.getElementById('loginStatus').className = 'error-msg';
+    return;
+  }
+  
+  const user = JSON.parse(userData);
+  const hashedPass = await hashPassword(password);
+  
+  if (hashedPass === user.passwordHash) {
+    document.getElementById('loginStatus').textContent = 'Demo login successful! (Insecure - educational only)';
+    document.getElementById('loginStatus').className = 'success-msg';
+    // Real app: Set httpOnly session cookie, redirect to dashboard
+  } else {
+    document.getElementById('loginStatus').textContent = 'Invalid credentials';
+    document.getElementById('loginStatus').className = 'error-msg';
+  }
+}
+
+// Clear sensitive data on page unload (best effort)
+window.addEventListener('beforeunload', () => {
+  // In real apps, this isn't needed as passwords aren't stored client-side
+});
+</script>
+
+</body>
+</html>
